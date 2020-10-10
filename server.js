@@ -24,8 +24,8 @@ const botName = 'Bot';
 
 // Run when client connects
 io.on('connection', socket => {
-  socket.on('joinRoom', ({ username, room }) => {
-    const user = userJoin(socket.id, username, room);
+  socket.on('joinRoom', ({ nickname, room }) => {
+    const user = userJoin(socket.id, nickname, room);
 
     socket.join(user.room);
 
@@ -37,7 +37,7 @@ io.on('connection', socket => {
       .to(user.room)
       .emit(
         'message',
-        formatMessage(botName, `${user.username} has joined the chat`)
+        formatMessage(botName, `${user.nickname} has joined the chat`)
       );
 
     // Send users and room info
@@ -51,7 +51,7 @@ io.on('connection', socket => {
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
 
-    io.to(user.room).emit('message', formatMessage(user.username, msg));
+    io.to(user.room).emit('message', formatMessage(user.nickname, msg));
   });
 
   // Runs when client disconnects
@@ -61,7 +61,7 @@ io.on('connection', socket => {
     if (user) {
       io.to(user.room).emit(
         'message',
-        formatMessage(botName, `${user.username} has left the chat`)
+        formatMessage(botName, `${user.nickname} has left the chat`)
       );
 
       // Send users and room info
