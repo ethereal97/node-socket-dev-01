@@ -14,10 +14,13 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-// Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
+const ROOT = path.join(__dirname, 'public'); 
+const PORT = process.env.PORT || 3000;
 
-const botName = 'ChatCord Bot';
+// Set static folder
+app.use(express.static(ROOT));
+
+const botName = 'Bot';
 
 // Run when client connects
 io.on('connection', socket => {
@@ -70,6 +73,5 @@ io.on('connection', socket => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-
+//* running the server
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
