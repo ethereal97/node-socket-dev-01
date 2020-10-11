@@ -9,6 +9,16 @@ const {
 
 const botName = 'ChatCord Bot';
 
+const storage = {
+    users: {
+        accounts: new Array,
+        indexes: new Object,
+        get length() {
+            return this.accounts.length;
+        }
+    }
+};
+
 let io;
 
 module.exports = function(server) {
@@ -19,6 +29,7 @@ module.exports = function(server) {
         socket.on('joinRoom', ({ username, room }) => {
             const user = userJoin(socket.id, username, room);
 
+            storage.users.accounts.push(user);
             socket.join(user.room);
 
             // Welcome current user
@@ -56,6 +67,11 @@ module.exports = function(server) {
                     users: getRoomUsers(user.room)
                 });
             }
+        });
+
+        console.log(storage, socket.handshake.headers, socket.id);
+        socket.on('checkSessionUser', ({ username }) => {
+            console.log(username);
         });
     });
 }

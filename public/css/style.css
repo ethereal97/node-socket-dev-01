@@ -4,6 +4,7 @@
 	--dark-color-a: #667aff;
 	--dark-color-b: #7386ff;
 	--light-color: #e6e9ff;
+	--light-color-b: #e6e9ff7f;
 	--success-color: #5cb85c;
 	--error-color: #d9534f;
 }
@@ -99,16 +100,42 @@ a {
 	overflow-wrap: break-word;
 }
 
+.message.self {
+    background: var(--light-color-b);
+    text-align: right;
+}
+
 .chat-messages .message .meta {
 	font-size: 15px;
 	font-weight: bold;
-	color: var(--dark-color-b);
+	color: var(--dark-color-a);
 	opacity: 0.7;
 	margin-bottom: 7px;
 }
 
-.chat-messages .message .meta span {
-	color: #777;
+.message.self .meta {
+    color: var(--dark-color-a);
+    opacity: .5;
+}
+
+.message .meta::before {
+    content: "";
+	color: #aaa;
+    font-size: 10px;
+}
+
+.message .meta:after {
+    content: "  " attr(content);
+    font-size: 10px;
+	color: #aaa;
+}
+
+.message.self .meta::before {
+    content: attr(content) "  ";
+}
+
+.message.self .meta::after {
+    content: "";
 }
 
 .chat-form-container {
